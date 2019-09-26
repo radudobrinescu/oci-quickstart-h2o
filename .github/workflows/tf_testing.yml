@@ -13,6 +13,5 @@ jobs:
       run: echo Installing stuff!
     - name: Run a multi-line script
       run: |
-        #sudo apt-get install go,
-        #sudo apt-get install dep,
-        #go get -v github.com/gruntwork-io/terratest.
+        echo First exec,
+        echo Second exec.
