@@ -1,19 +1,47 @@
-name: TFTesting
+workflow "Terraform" {
+  resolves = "terraform-plan"
+  on = "pull_request"
+}
 
-on: [push]
+action "filter-to-pr-open-synced" {
+  uses = "actions/bin/filter@master"
+  args = "action 'opened|synchronize'"
+}
 
-jobs:
-  build:
+action "terraform-fmt" {
+  uses = "hashicorp/terraform-github-actions/fmt@v0.4.2"
+  needs = "filter-to-pr-open-synced"
+  secrets = ["GITHUB_TOKEN"]
+  env = {
+    TF_ACTION_WORKING_DIR = "./terraform"
+  }
+}
 
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v1
-    - name: Install required packages
-      run: |
-        sudo apt-get install build-essential unzip
-      shell: bash
-    - name: Run a multi-line script
-      run: |
-        echo First exec,
-        echo Second exec.
+action "terraform-init" {
+  uses = "hashicorp/terraform-github-actions/init@v0.4.2"
+  needs = "terraform-fmt"
+  secrets = ["GITHUB_TOKEN"]
+  env = {
+    TF_ACTION_WORKING_DIR = "./terraform"
+  }
+}
+
+action "terraform-validate" {
+  uses = "hashicorp/terraform-github-actions/validate@v0.4.2"
+  needs = "terraform-init"
+  secrets = ["GITHUB_TOKEN"]
+  env = {
+    TF_ACTION_WORKING_DIR = "./terraform"
+  }
+}
+
+action "terraform-plan" {
+  uses = "hashicorp/terraform-github-actions/plan@v0.4.2"
+  needs = "terraform-validate"
+  secrets = ["GITHUB_TOKEN"]
+  env = {
+    TF_ACTION_WORKING_DIR = "."
+    # If you're using Terraform workspaces, set this to the workspace name.
+    TF_ACTION_WORKSPACE = "default"
+  }
+}
