@@ -1,6 +1,8 @@
 on: push
 name: Terraform
 jobs:
+  terraform-job: 
+    name: tf-job-name
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
