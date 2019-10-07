@@ -20,7 +20,7 @@ action "terraform-fmt" {
 action "terraform-init" {
   uses = "hashicorp/terraform-github-actions/init@v0.4.2"
   needs = "terraform-fmt"
-  secrets = ["GITHUB_TOKEN"]
+  secrets = ["TF_VAR_compartment_ocid", "TF_VAR_fingerprint", "TF_VAR_private_key", "TF_VAR_tenancy_ocid", "TF_VAR_user_ocid"]
   env = {
     TF_ACTION_WORKING_DIR = "./terraform"
   }
@@ -29,7 +29,7 @@ action "terraform-init" {
 action "terraform-validate" {
   uses = "hashicorp/terraform-github-actions/validate@v0.4.2"
   needs = "terraform-init"
-  secrets = ["GITHUB_TOKEN"]
+  secrets = ["TF_VAR_compartment_ocid", "TF_VAR_fingerprint", "TF_VAR_private_key", "TF_VAR_tenancy_ocid", "TF_VAR_user_ocid"]
   env = {
     TF_ACTION_WORKING_DIR = "./terraform"
   }
@@ -38,7 +38,7 @@ action "terraform-validate" {
 action "terraform-plan" {
   uses = "hashicorp/terraform-github-actions/plan@v0.4.2"
   needs = "terraform-validate"
-  secrets = ["GITHUB_TOKEN"]
+  secrets = ["TF_VAR_compartment_ocid", "TF_VAR_fingerprint", "TF_VAR_private_key", "TF_VAR_tenancy_ocid", "TF_VAR_user_ocid"]
   env = {
     TF_ACTION_WORKING_DIR = "."
     # If you're using Terraform workspaces, set this to the workspace name.
