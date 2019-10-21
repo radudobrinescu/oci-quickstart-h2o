@@ -1,5 +1,4 @@
-![](https://github.com/radudobrinescu/oci-h20-quickstart/workflows/OCI-Marketplace/badge.svg)
-![](https://github.com/radudobrinescu/oci-h20-quickstart/workflows/.github/workflows/push.yml/badge.svg)
+[![Actions Status](https://github.com/radudobrinescu/oci-quickstart-h2o/workflows/OCI-Marketplace/badge.svg)](https://github.com/radudobrinescu/oci-quickstart-h2o/actions)
 
 
 # oci-quickstart-h2o
