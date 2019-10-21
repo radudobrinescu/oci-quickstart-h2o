@@ -15,33 +15,41 @@ jobs:
       TF_VAR_tenancy_ocid: ${{ secrets.TF_VAR_tenancy_ocid }}
       TF_VAR_user_ocid: ${{ secrets.TF_VAR_user_ocid }}
     steps:
-    - uses: actions/checkout@development
-    - name: install-dependencies
+    - uses: actions/checkout@master
+    - name: Install dependencies
       run: |
         sh devops/prepare-job.sh
-    - name: tf-apply-and-verify-assertions
+    - name: Test terraform code
       working-directory: terraform
       run: |
         export TF_ACTION_WORKING_DIR=$PWD
-        terraform init
-        terraform 0.12upgrade -yes
+        terraform init && terraform 0.12upgrade -yes
         echo "${{ secrets.TF_VAR_private_key }}" > /home/runner/oci.pem
-        ls /home/runner/work/oci-quickstart-h2o/oci-quickstart-h2o/terraform/../devops/marketplace-image.json
-        go test -v $HOME/go/src/terratest/test/terraform-h2o-quickstart_test.go -timeout 20m
-        env
-    - name: create-marketplace-ready-image
-      if: success()
-      #uses: actions/upload-artifact@v1
-      run: |
-        echo "Use Packer to create OCI image with cleanup-script"
-        echo $IMAGE_OCID
-        env
-        packer version
-    - name: tf-destroy
+        #go test -v $HOME/go/src/terratest/test/terraform-h2o-quickstart_test.go -timeout 20m
+    - name: Create stack archive
       if: success()
       working-directory: terraform
       run: |
-        terraform destroy -auto-approve -var region="us-ashburn-1" -var ssh_public_key="ssh-rsa AAAAB3NzaC1yc2EAAAKHaNm3WrX"
+        mkdir -p /home/runner/upload
+        export FILENAME=$(echo $GITHUB_REPOSITORY |cut -d'/' -f 2).$(date +"%Y%m%d_%H%M%S")
+        zip -r /home/runner/upload/$FILENAME.zip ./ -x ".terraform/*"
+    - name: Create marketplace dummy image
+      working-directory: devops
+      run: |
+        echo "Use Packer to create OCI image with cleanup-script"
+        jq '.builders[].user_ocid |= "'$TF_VAR_user_ocid'" | 
+            .builders[].tenancy_ocid |= "'$TF_VAR_tenancy_ocid'" | 
+            .builders[].fingerprint |= "'$TF_VAR_fingerprint'" | 
+            .builders[].key_file |= "'$TF_VAR_private_key_path'" | 
+            .builders[].compartment_ocid |= "'$TF_VAR_compartment_ocid'" |
+            .builders[].image_name |= "'$FILENAME'"' marketplace_image.json > dummy_image.json
+        packer build dummy_image.json
+        cp manifest.json /home/runner/upload
+        cat manifest.json | jq -r .builds[0].artifact_id |  cut -d':' -f2 > /home/runner/upload/ocid.txt
+    - uses: actions/upload-artifact@master
+      with:
+        name: stack-archive
+        path: /home/runner/upload
   submit-image-listing:
     if: success()
     name: submit-image
