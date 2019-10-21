@@ -15,10 +15,10 @@ jobs:
       TF_VAR_tenancy_ocid: ${{ secrets.TF_VAR_tenancy_ocid }}
       TF_VAR_user_ocid: ${{ secrets.TF_VAR_user_ocid }}
     steps:
-    - uses: actions/checkout@oci-quickstart/oci-quickstart
+    - uses: actions/checkout@master
     - name: Install dependencies
       run: |
-        sh partners/scripts/prepare-job.sh
+        sh devops/prepare-job.sh
     - name: Test terraform code
       working-directory: terraform
       run: |
