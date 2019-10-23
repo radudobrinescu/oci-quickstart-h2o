@@ -16,6 +16,8 @@ jobs:
       TF_VAR_user_ocid: ${{ secrets.TF_VAR_user_ocid }}
     steps:
     - uses: actions/checkout@development
+      with:
+              ref: development
     - name: Install dependencies
       run: |
         sh devops/prepare-job.sh
@@ -58,4 +60,4 @@ jobs:
     steps:
     - name: submit-image-to-publisher-portal
       run: |
-  
+        echo "This will submit the image to Publisher Portal"
