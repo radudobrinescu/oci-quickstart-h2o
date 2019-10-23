@@ -15,9 +15,7 @@ jobs:
       TF_VAR_tenancy_ocid: ${{ secrets.TF_VAR_tenancy_ocid }}
       TF_VAR_user_ocid: ${{ secrets.TF_VAR_user_ocid }}
     steps:
-    - uses: actions/checkout@master
-      with:
-         ref: development
+    - uses: actions/checkout
     - name: Install dependencies
       run: |
         sh devops/prepare-job.sh
