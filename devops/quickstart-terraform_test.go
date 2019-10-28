@@ -41,8 +41,14 @@ func TestQuickstartTerraformCode(t *testing.T) {
 
 	fmt.Println()
  	for _, e := range os.Environ() {
-    	    pair := strings.SplitN(e, "=", 2)
+    	    pair := strings.SplitN(e, "=")
     	    fmt.Println(pair[0])
+    	}
+	
+	// fetcha all env variables
+        for _, element := range os.Environ() {
+    	    variable := strings.Split(element, "=")
+            fmt.Println(variable[0],"=>",variable[1])        
     	}
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
 	defer terraform.Destroy(t, terraformOptions)
