@@ -18,9 +18,6 @@ jobs:
     - uses: actions/checkout@master
       with:
               ref: development
-    - name: Troubleshooting
-      run: |
-        echo "${{ secrets.TF_VAR_private_key }}" > $GITHUB_WORKSPACE/oci.pem
     - uses: "radudobrinescu/github-actions/terraform-test@master"
     - name: Create stack archive
       if: success()
