@@ -41,7 +41,7 @@ func TestQuickstartTerraformCode(t *testing.T) {
 
 	fmt.Println()
  	for _, e := range os.Environ() {
-    	    pair := strings.SplitN(e, "=")
+    	    pair := strings.Split(e, "=")
     	    fmt.Println(pair[0])
     	}
 	
