@@ -21,7 +21,7 @@ jobs:
     - uses: "radudobrinescu/github-actions/terraform-test@master"
       env:
         TF_ACTION_WORKING_DIR: terraform
-    - name: Create stack-archive
+    - name: Create stack archive
       if: success()
       working-directory: terraform
       run: |
