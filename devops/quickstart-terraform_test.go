@@ -3,6 +3,7 @@ package test
 import (
 	"testing"
 	"os"
+	"fmt"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	//"github.com/stretchr/testify/assert"
 	//http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
@@ -37,6 +38,11 @@ func TestQuickstartTerraformCode(t *testing.T) {
 		NoColor: true,
 	}
 
+	fmt.Println()
+ 	for _, e := range os.Environ() {
+    	    pair := strings.SplitN(e, "=", 2)
+    	    fmt.Println(pair[0])
+    	}
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
 	defer terraform.Destroy(t, terraformOptions)
 
