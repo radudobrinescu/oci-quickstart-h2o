@@ -18,7 +18,9 @@ jobs:
     - uses: actions/checkout@master
       with:
               ref: development
-    - uses: "radudobrinescu/github-actions/terraform-test@v1"
+    - uses: "radudobrinescu/github-actions/terraform-test"
+      env:
+        TF_ACTION_WORKING_DIR: terraform
     - name: Create stack archive
       if: success()
       working-directory: terraform
