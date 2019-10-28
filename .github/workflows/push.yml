@@ -11,13 +11,13 @@ jobs:
       TF_VAR_compartment_ocid: ${{ secrets.TF_VAR_compartment_ocid }}
       TF_VAR_fingerprint: ${{ secrets.TF_VAR_fingerprint }}
       TF_VAR_private_key: ${{ secrets.TF_VAR_private_key }}
-      TF_VAR_private_key_path: /home/runner/oci.pem
+      TF_VAR_private_key_path: /home/runner/work/oci.pem
       TF_VAR_tenancy_ocid: ${{ secrets.TF_VAR_tenancy_ocid }}
       TF_VAR_user_ocid: ${{ secrets.TF_VAR_user_ocid }}
     steps:
     - name: Create private key file
       run: |
-        echo "${{ secrets.TF_VAR_private_key }}" > /home/runner/oci.pem
+        echo "${{ secrets.TF_VAR_private_key }}" > /home/runner/work/oci.pem
     - uses: actions/checkout@master
       with:
               ref: development
