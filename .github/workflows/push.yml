@@ -24,7 +24,9 @@ jobs:
     - uses: "radudobrinescu/github-actions/create-stack@master"
       name: Create Stack Archive
     #  if: success()
-    - uses: "radudobrinescu/github-actions/create-dummy-image@master"
-      name: Create dummy image
+    - uses: "radudobrinescu/github-actions/create-partner-image@master"
+      name: Create Partner image
+      with:
+        base-image: 'ocid1.image.oc1.iad.aaaaaaaavxqdkuyamlnrdo3q7qa7q3tsd6vnyrxjy3nmdbpv7fs7um53zh5q'
     - uses: "radudobrinescu/github-actions/update-listing@master"
       name: Update Marketplace Listing
