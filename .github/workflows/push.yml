@@ -19,13 +19,8 @@ jobs:
       with:
               ref: development
     - uses: "radudobrinescu/github-actions/terraform-test@master"
-    - name: Create stack archive
+    - uses: "radudobrinescu/github-actions/create-stack@master"
       if: success()
-      working-directory: terraform
-      run: |
-        mkdir -p /home/runner/upload
-        export FILENAME=$(echo $GITHUB_REPOSITORY |cut -d'/' -f 2).$(date +"%Y%m%d_%H%M%S")
-        zip -r /home/runner/upload/$FILENAME.zip ./ -x ".terraform/*"
     - name: Create marketplace dummy image
       working-directory: devops
       run: |
