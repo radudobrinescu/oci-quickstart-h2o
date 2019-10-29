@@ -19,13 +19,14 @@ jobs:
       with:
               ref: development
     #- uses: "radudobrinescu/github-actions/terraform-test@master"
-    - uses: "radudobrinescu/github-actions/create-stack@master"
-      if: success()
+    #- uses: "radudobrinescu/github-actions/create-stack@master"
+    #  if: success()
     - uses: "radudobrinescu/github-actions/create-dummy-image@master"
+      name: Create dummy image
     - uses: actions/upload-artifact@master
       with:
         name: stack-archive
-        path: $GITHUB_WORKSPACE/upload
+        path: ${GITHUB_WORKSPACE}/upload
   submit-image-listing:
     if: success()
     name: submit-image
