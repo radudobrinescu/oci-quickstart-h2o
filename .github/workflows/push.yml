@@ -19,14 +19,17 @@ jobs:
       name: Checkout Quickstart Repo
       with:
               ref: development
-    #- uses: "radudobrinescu/github-actions/terraform-test@master"
-    #   name: Test Terraform Code
-    #- uses: "radudobrinescu/github-actions/create-stack@master"
-    #  name: Create Stack Archive
-    #  if: success()
-    - uses: "radudobrinescu/github-actions/create-partner-image@master"
+    - uses: "radudobrinescu/github-actions/terraform-test@v0.9"
+      name: Test Terraform Code
+    - uses: "radudobrinescu/github-actions/create-stack@v0.9"
+      name: Create Stack Archive
+      if: success()
+    #- user: "radudobrinescu/github-actions/create-dummy-image@master"
+    #  name: Create Dummy Image
+    - uses: "radudobrinescu/github-actions/create-partner-image@v0.9"
+      name: Create Partner Marketplace-ready Image
       with:
         base-image: 'ocid1.image.oc1.iad.aaaaaaaavxqdkuyamlnrdo3q7qa7q3tsd6vnyrxjy3nmdbpv7fs7um53zh5q'
-    - uses: "radudobrinescu/github-actions/update-listing@master"
+    - uses: "radudobrinescu/github-actions/update-listing@v0.9"
       name: Update Marketplace Listing
       needs: create-stack
