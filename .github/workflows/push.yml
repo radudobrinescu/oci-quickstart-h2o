@@ -29,3 +29,4 @@ jobs:
         base-image: 'ocid1.image.oc1.iad.aaaaaaaavxqdkuyamlnrdo3q7qa7q3tsd6vnyrxjy3nmdbpv7fs7um53zh5q'
     - uses: "radudobrinescu/github-actions/update-listing@master"
       name: Update Marketplace Listing
+      needs: create-stack
